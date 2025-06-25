@@ -21,43 +21,48 @@ int main()
 	printf("()__________________§*&$___________________|=========+-/X Calculadora da DIO X\\-+=========|___________________$&*§__________________()\n\n");
 	printf("Por favor, selecione a operação desejada:\n \n = Consultar o número \n + Soma \n - Subtração \n / Divisão \n x Multiplicação \n p Potência \n");
 	printf(" r Resto da divisão \n q Raiz Quadrada \n\n");
-	printf("Opção: ");
-	scanf(" %c", &opcao);
-    printf("\n\n");
 	
-	if (opcao != '=' && opcao != '+' && opcao != '-' && opcao != '/' && opcao != 'x' && opcao != 'p'  && opcao != 'r' && opcao != 'q')
+
+
+	while(1)
 	{
-		printf("Opção inválida, reinicie o programa e tente novamente.\n"); // pra não precisa implementa um LOOP, ou corrijo depos
-	}	
-	else 
-	{
-		switch(opcao)
+		printf("Opção: ");
+		if (scanf(" %c", &opcao)  && opcao != '+' && opcao != '-' && opcao != '/' && opcao != 'x' && opcao != 'p' && opcao != 'r' && opcao != 'q' && opcao != '=') 
 		{
+			while(getchar()!= '\n');  
+			printf("Opção inválida, digite uma das opçoes = + - / x p r q  para prosseguir!.\n");
+			continue;
+		}
+		else
+		{
+			switch(opcao)
+			{
 			case '=':
 				consulta();
-				break;
-			case '+':
-				soma();
-				break;
-			case '-':
-				subtracao();
-				break;
-			case '/':
-				divisao();
-				break;
-			case 'x':
-				multiplicacao();
-				break;
-			case 'p':
-				potencia();
-				break;
-			case 'r':
-				resto();
-				break;
-			case 'q':
-				raiz();
-				break;	
-		}
+					break;
+				case '+':
+					soma();
+					break;
+				case '-':
+					subtracao();
+					break;
+				case '/':
+					divisao();
+					break;
+				case 'x':
+					multiplicacao();
+					break;
+				case 'p':
+					potencia();
+					break;
+				case 'r':
+					resto();
+					break;
+				case 'q':
+					raiz();
+					break;	
+			}
+		}	
 	}
 }
 
