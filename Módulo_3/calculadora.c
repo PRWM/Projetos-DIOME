@@ -11,9 +11,10 @@ float multiplicacao();
 float potencia();
 float resto();
 float raiz();
+void decimalparabinario(int decimal, char *binario);
+void decimalparahexadecimal(int decimal, char *hexadecimal);
 
-
-// Função principal:
+// Função principal que também é o menu inicial:
 int main()
 {
 	char opcao;
@@ -24,7 +25,7 @@ int main()
 	printf(" = Consultar o número \n + Soma \n - Subtração \n / Divisão \n x Multiplicação \n p Potência \n");
 	printf(" r Resto da divisão \n q Raiz Quadrada \n\n\n 0 Sair \n\n\n ");	
 
-	// Loop para verificar se  o input do usuário é uma das opções do menu.
+	// Loop para verificar se o input do usuário é uma das opções do menu.
 	while(1)
 	{
 		printf("Opção: ");
@@ -73,19 +74,25 @@ int main()
 // Função de consulta.
 float consulta()
 {
+	float numero = 0;
+	int opcao = 0 , decimal = 0;
+	char binario[100];
+	char hexadecimal[20];
+
 	printf("\n\n");
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO______Consulta em Outros Sistemas de Númeração   X\\-+=========|______$&*§______()\n\n");
-
-	float numero = 0;
-	int opcao = 0;
-
-	printf("Digite um número para consulta-lo nos sistemas binario e hexadecima:");
+	printf("Digite um número para consulta-lo nos sistemas binario e hexadecimal: ");
 	scanf("%f", &numero);
-	printf("O numero XX digitado é : %2.f  \n ",numero);
 
-	// IMPLEMENTAR AS PARTES DE BINARIO E HEXADECIMAL _________________________--------__
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)numero;	
 
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
 
+	printf("\n\n");
+	printf("O numero digitado no sistema binário é : %s \n\n", binario);
+	printf("O numero digitado no sistema hexadecial é : %s \n\n",hexadecimal);
 
 	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
@@ -96,9 +103,11 @@ float consulta()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 			    printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}	
 			continue;
 		}
 		else
@@ -119,29 +128,38 @@ float consulta()
 // Função de soma. 
 float soma()
 {
+	float numero = 0 , resultado = 0;
+	int opcao = 0 , contador = 0, decimal = 0;
+	char binario[100];
+	char hexadecimal[20];
+
 	printf("\n\n");
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO_____Soma de Números +++++++++++++++++++++++++   X\\-+=========|______$&*§______()\n\n");
 
-	float numero, resultado = 0;
-	int opcao, contador = 0;
-
+	/* Loop que solicita o(s) valor(es), e vai adicionando à variável resultado até o usuário digitar zero para fazer a soma, 
+	 uma vez que somar zero a qualquer valor não altera nada. */
 	do
 	{
-		printf("Digite os numeros a serem somados, um de cada vez e pressione ENTER, para verificar o resultado digite o número zero 0 pressione ENTER:  ");
+		printf("Digite um número de cada vez e pressione ENTER, para verificar o resultado da soma digite o número zero 0 pressione ENTER: ");
 		scanf("%f", &numero);
 
 		resultado += numero;
 		contador++;
 	}
-	while(numero != 0);  
+	while(numero != 0);  	
 
 	contador = contador - 1;
+	
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)resultado;
+
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
+
 	printf("\n\n");
-	printf("A soma dos %i numeros digitados é : %.2f  \n\n",contador, resultado);
-
-
-	// IMPLEMENTAR AS PARTES DE BINARIO E HEXADECIMAL _________________________--------__
-
+	printf("A soma dos %i valores digitados no sistema decimal é: %.2f \n\n", contador, resultado);
+	printf("O resultado da soma no sistema binário é: %s \n\n", binario);
+	printf("O resultado da soma no sistema hexadecimal é: %s \n\n", hexadecimal);
 
 	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
@@ -152,9 +170,11 @@ float soma()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 				printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}
 			continue;
 		}
 		else
@@ -175,16 +195,21 @@ float soma()
 // Função de subtração. 
 float subtracao()
 {
+	float numero = 0, resultado = 0;
+	int opcao = 0, contador = 0, decimal = 0;
+	int numero1 = 1;
+	char binario[100];
+	char hexadecimal[20];
+
 	printf("\n\n");
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO_____Subtração de Números ---------------------  X\\-+=========|______$&*§______()\n\n");
 
-	float numero, resultado = 0;
-	int opcao, contador = 0;
-	int numero1 = 1;
 
+	/* Loop que solicita o(s) valor(es) e substitui o valor do resultado com o do primeiro input, do caso contrário a conta sempre fica negativa e incorreta.
+	   Para verificar o resultado digita 0, uma vez que subtrair zero não altera a conta	*/   
 	do
 	{
-		printf("Digite os numeros a serem subtraidos, um de cada vez e pressione ENTER, para verificar o resultado digite o número zero 0 pressione ENTER:  ");
+		printf("Digite um número de cada vez e pressione ENTER, para verificar o resultado da subtração digite o número zero 0 pressione ENTER: ");
 		scanf("%f", &numero);	
 
 		if (numero1) 
@@ -202,15 +227,17 @@ float subtracao()
 	while(numero != 0);  
 
 	contador = contador - 1;
+		
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)resultado;
+
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
+
 	printf("\n\n");
-	printf("O valor da subtração dos %i numeros digitados é : %.2f  \n ",contador, resultado);
-
-
-
-
-
-	// IMPLEMENTAR AS PARTES DE BINARIO E HEXADECIMAL _________________________--------__
-
+	printf("o valor da subtração dos %i valores digitados no sistema decimal é: %.2f \n\n", contador, resultado);
+	printf("O resultado da subtração no sistema binário é: %s \n\n", binario);
+	printf("O resultado da subtração no sistema hexadecimal é: %s \n\n", hexadecimal);
 
 	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
@@ -221,9 +248,11 @@ float subtracao()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 			    printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}	
 			continue;
 		}
 		else
@@ -244,12 +273,13 @@ float subtracao()
 // Função de divisão. 
 float divisao()
 {
+	int opcao = 0, decimal = 0;
+	float dividendo = 0, divisor = 0, resultado = 0;
+	char binario[100];
+	char hexadecimal[20];
+
 	printf("\n\n");
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO_____Divisão de Números ///////////////////////  X\\-+=========|______$&*§______()\n\n");
-
-	int opcao = 0;
-	float dividendo, divisor, resultado = 0;
-
 	printf("Digite o valor do dividendo e pressione enter:  ");
 	scanf("%f", &dividendo);
 	printf("Digite o valor do divisor e pressione enter:  ");
@@ -262,10 +292,19 @@ float divisao()
 		printf("Você quer destruir o universo??? Não é possível dividir por 0 !!!!!!!\n\n ");
 		divisao();
 	}
+	// Divisão é um operador aritimético imbutido na linguagem.
 	resultado = dividendo / divisor;
 
-	printf("\n\n");	
-	printf("O valor da divisão de %.2f por %.2f é igual a =  %.2f \n\n  ", dividendo, divisor, resultado);
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)resultado;
+
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
+
+	printf("\n\n");
+	printf("o valor da divisão no sistema decimal é: %.2f \n\n", resultado);
+	printf("O resultado da divisão no sistema binário é: %s \n\n", binario);
+	printf("O resultado da divisão no sistema hexadecimal é: %s \n\n", hexadecimal);
 
 	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
@@ -276,9 +315,11 @@ float divisao()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 				printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}	
 			continue;
 		}
 		else
@@ -299,15 +340,18 @@ float divisao()
 // Função de multiplicação
 float multiplicacao()
 {
+	float numero = 0, resultado = 1;
+    int opcao = 0, contador = 0, decimal = 0;
+   	char binario[100];
+	char hexadecimal[20];
+
 	printf("\n\n");
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO_____Multiplicação de Números *****************  X\\-+=========|______$&*§______()\n\n");
 
-	float numero, resultado = 1;
-    int opcao, contador = 0;
-    
+	// Loop que solicita o(s) numero(s) e os multiplica até o usuário digitar 0, visto que qualquer número multiplicado por zero é zero.
         while (1) 
         {
-        printf("Digite Digite os numeros a serem multiplicados, um de cada vez e pressione ENTER, para verificar o resultado digite o número zero 0 pressione ENTER:");    
+       	printf("Digite um número de cada vez e pressione ENTER, para verificar o resultado da multiplicação digite o número zero 0 pressione ENTER: ");
         scanf("%f", &numero);
 
         if (numero == 0) 
@@ -322,13 +366,17 @@ float multiplicacao()
         resultado *= numero;
         contador++;
     	} 
+	
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)resultado;
+
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
 
 	printf("\n\n");
-	printf("O resultado da multiplicação  dos %i numeros digitados é : %.2f  \n\n",contador, resultado);
-
-
-	// IMPLEMENTAR AS PARTES DE BINARIO E HEXADECIMAL _________________________--------__
-
+	printf("o valor da multiplicação dos %i números digitados no sistema decimal é: %.2f \n\n", contador, resultado);
+	printf("O resultado da multiplicação no sistema binário é: %s \n\n", binario);
+	printf("O resultado da multiplicação no sistema hexadecimal é: %s \n\n", hexadecimal);
 
 	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
@@ -339,9 +387,11 @@ float multiplicacao()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 				printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}	
 			continue;
 		}
 		else
@@ -362,8 +412,10 @@ float multiplicacao()
 // Função de potência.
 float potencia()
 {
-	float base, expoente, resultado  = 0;
-	int opcao = 0;
+	float base = 0, expoente = 0, resultado  = 0;
+	int opcao = 0, decimal = 0;
+	char binario[100];
+	char hexadecimal[20];
 
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO_____Calculo de Potência x² x³ x² x³ x² x³ x² x³ X\\-+=========|______$&*§______()\n\n");
 	printf("Por favor, digite o valor da base e pressione ENTER: ");	
@@ -371,15 +423,19 @@ float potencia()
 	printf("Por favor, digite o valor do expoente e pressione ENTER: ");
 	scanf("%f", &expoente);
 
+	// A função de potência está incluida na biblioteca <math.h> .
 	resultado = powf(base, expoente);
 
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)resultado;
+
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
+
 	printf("\n\n");
-	printf("O resultado de %.2f elevado a %.2f, no sistema decimal é: %.2f  ",base, expoente, resultado);
-	printf("\n\n\n");	
-
-
-	// ADICIONAR OS RESULTADOS BINARIOS E HEXADECIMAL.......................................
-
+	printf("o valor de %.1f elevado a %.1f no sistema decimal é: %.2f \n\n", base, expoente, resultado);
+	printf("O resultado no sistema binário é: %s \n\n", binario);
+	printf("O resultado no sistema hexadecimal é: %s \n\n", hexadecimal);
 
 	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
@@ -390,9 +446,11 @@ float potencia()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 				printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}
 			continue;
 		}
 		else
@@ -413,11 +471,12 @@ float potencia()
 // Função de resto.
 float resto()
 {
+	int opcao = 0, dividendo = 0, divisor = 0, resultado = 0, decimal = 0;
+	char binario[100];
+	char hexadecimal[20];
+
 	printf("\n\n");
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO_____Resto da Divisão        MODULO %%           X\\-+=========|______$&*§______()\n\n");
-
-	int opcao, dividendo, divisor, resultado = 0;
-
 	printf("Digite o valor INTEIRO do dividendo e pressione enter:  ");
 	scanf("%i", &dividendo);
 	printf("Digite o valor INTEIRO do divisor e pressione enter:  ");
@@ -430,10 +489,19 @@ float resto()
 		printf("Você quer destruir o universo??? Não é possível dividir por 0 !!!!!!!\n\n ");
 		resto();
 	}
+	// Módulo é um operador aritimético imbutido na linguagem.
 	resultado = dividendo % divisor;
+	
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)resultado;
+
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
 
 	printf("\n\n");	
-	printf("O resto da divisão, ou MODULO de %i por %.i é igual a =  %i \n\n  ", dividendo, divisor, resultado);
+	printf("O resto da divisão, ou MODULO de %i por %.i é igual a =  %i \n\n", dividendo, divisor, resultado);
+	printf("O módulo no sistema binário é: %s \n\n", binario);
+	printf("O módulo no sistema hexadecimal é: %s \n\n", hexadecimal);
 
 	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
@@ -444,9 +512,11 @@ float resto()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 				printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}
 			continue;
 		}
 		else
@@ -467,20 +537,31 @@ float resto()
 // Função de raiz quadrada.
 float raiz()
 {
+	int opcao = 0, decimal = 0;
+	float numero = 0, resultado = 0;
+	char binario[100];
+	char hexadecimal[20];
+
 	printf("\n\n");
 	printf("()______§*&$______|=========+-/X   Calculadora da DIO_____Raiz Quadrada √√√√√√√√√√√√√√√√√√√√√√√√√√√√√ X\\-+=========|______$&*§______()\n\n");
-
-	int opcao = 0;
-	float numero, resultado = 0;
-
 	printf("Digite um número para consular a sua Raiz Quadrada: ");
 	scanf("%f", &numero);
 
+	// A função de raiz quadrada está incluida na biblioteca <math.h> .
 	resultado = sqrt(numero);
 
-	printf("\n\n");
-	printf("A Raiz Quadrada de %.2f é = %.2f \n\n", numero, resultado);
+	// Type casting, ou, conversão de tipos para mudar o valor de float para int.
+	decimal = (int)resultado;
 
+	decimalparabinario(decimal, binario);
+	decimalparahexadecimal(decimal, hexadecimal);
+
+	printf("\n\n");	
+	printf("A Raiz Quadrada de %.2f no sistema decimal é: %.2f \n\n", numero, resultado);
+	printf("O valor da raiz no sistema binário é: %s \n\n", binario);
+	printf("O valor da raiz no sistema hexadecimal é: %s \n\n", hexadecimal);
+
+	// Loop que verifica se o input das opçoes está certo para voltar ao menu principal ou fazer nova conta. 
 	while(1)
 	{
 		printf("\n");
@@ -489,9 +570,11 @@ float raiz()
 		if (scanf("%d", &opcao) != 1)
 		{
 			// Se scanf não lê um número, essa linha limpa o buffer de input.
-			while (getchar() != '\n') ; // Limpa o  buffer.
+			while (getchar() != '\n') // Limpa o  buffer.
+			{
 				printf("\n");
 				printf("Opção inválida, digite 1 ou 2.\n");
+			}	
 			continue;
 		}
 		else
@@ -509,7 +592,67 @@ float raiz()
 	return 0;
 }
 
+// Função que converte numeros decimais inteiros positivos para binário.
+void decimalparabinario(int decimal, char *binario)
+{
+    int i = 0;
+    if (decimal == 0) 
+	{
+        binario[i++] = '0';
+        binario[i] = '\0';
+        return;
+    }
+    while (decimal > 0) 
+	{
+        binario[i++] = (decimal % 2) + '0';
+        decimal /= 2;
+    }
+    binario[i] = '\0';
+    
+	// Inverte a string
+    int inicio = 0;
+    int fim = i - 1;
+    while (inicio < fim) 
+	{
+        char temp = binario[inicio];
+        binario[inicio] = binario[fim];
+        binario[fim] = temp;
+        inicio++;
+        fim--;
+    }
+}
 
+// Função que converte numeros decimais inteiros positivos para hexadecimal.
+void decimalparahexadecimal(int decimal, char *hexadecimal)
+{
+    int resto, i = 0;
+    char hexChars[] = "0123456789ABCDEF";
 
+    if (decimal == 0) 
+	{
+        hexadecimal[i++] = '0';
+        hexadecimal[i] = '\0';
+        return;
+    }
 
+    while (decimal != 0) 
+	{
+        resto = decimal % 16;
+        hexadecimal[i++] = hexChars[resto];
+        decimal /= 16;
+    }
+    hexadecimal[i] = '\0';
+
+    // Inverte a string
+    int start = 0;
+    int end = i - 1;
+    while (start < end) 
+	{
+        char temp = hexadecimal[start];
+        hexadecimal[start] = hexadecimal[end];
+        hexadecimal[end] = temp;
+        start++;
+        end--;
+    }
+}
 
