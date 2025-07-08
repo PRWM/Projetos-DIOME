@@ -1,0 +1,24 @@
+// LogAspect.ah
+#include <iostream>
+#include "Conta.h"
+aspect VerificadorDeSaldo
+{
+    advice execution("bool Conta::sacar(double)") : around() 
+    {
+        Conta* conta = tjp->that();
+        double valor = *(double*)tjp->arg(0);
+
+        if (conta->getSaldo() < valor) 
+        {
+            std::cout << "[LOG ERRO] Saldo insuficiente na conta " 
+                      << conta->getTipo() << ": "
+                      << "Solicitado = " << valor 
+                      << ", Disponível = " << conta->getSaldo() 
+                      << std::endl;
+            return false; // Impede a execução do método original
+        }
+
+        return tjp->proceed(); // Executa saque normalmente
+    }
+};
+
